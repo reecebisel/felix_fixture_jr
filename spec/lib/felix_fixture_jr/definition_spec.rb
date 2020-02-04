@@ -13,8 +13,12 @@ end
 class TotezDefintion < FelixFixtureJr::Definition; end
 
 RSpec.describe FelixFixtureJr::Definition do
-  context "no gob object and no parent passed" do
+  context "minimal setup for class" do
     before do
+      FelixFixtureJr.configure do |config|
+        config.fixture_directory = "./spec/support"
+      end
+
       @subject = described_class.new(Totez)
     end
 

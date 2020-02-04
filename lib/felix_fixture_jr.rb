@@ -10,7 +10,8 @@ module FelixFixtureJr
   extend self
   extend Forwardable
 
-  def_delegators :@config, :default_call_chain
+  def_delegators :config, :default_call_chain,
+                          :fixture_directory
 
   def configure
     yield config

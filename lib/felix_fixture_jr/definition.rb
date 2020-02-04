@@ -43,7 +43,7 @@ module FelixFixtureJr
     private
 
     def parent_name
-      parent&.table_name || FelixFixtureJr.god_object.table_name
+      parent&.table_name || FelixFixtureJr.default_call_chain
     end
 
     def blocked_attributes
