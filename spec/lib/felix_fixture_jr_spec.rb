@@ -6,6 +6,18 @@ require "./lib/felix_fixture_jr"
 require "pry"
 
 RSpec.describe FelixFixtureJr do
+  let(:blacklisted_attributes) do
+    FelixFixtureJr.config.blacklisted_attributes
+  end
+
+  let(:fixture_directory) do
+    FelixFixtureJr.config.fixture_directory
+  end
+
+  let(:default_call_chain) do
+    FelixFixtureJr.config.default_call_chain
+  end
+
   it "allows configuration to update config" do
     FelixFixtureJr.configure do |config|
       config.fixture_directory   = "../test/fixtures/"
@@ -13,8 +25,8 @@ RSpec.describe FelixFixtureJr do
       config.blacklisted_attributes << "password"
     end
 
-    expect(FelixFixtureJr.config.blacklisted_attributes).to eq %w[created_at updated_at password]
-    expect(FelixFixtureJr.config.fixture_directory).to eq "../test/fixtures/"
-    expect(FelixFixtureJr.config.default_call_chain).to eq %w[some call chain]
+    expect(blacklisted_attributes).to eq %w[created_at updated_at password]
+    expect(fixture_directory).to eq "../test/fixtures/"
+    expect(default_call_chain).to eq %w[some call chain]
   end
 end
