@@ -27,7 +27,9 @@ RSpec.describe FelixFixtureJr::Definition do
     end
 
     it "#file" do
-      expect(@subject.file).to eq File.open("../support/totez.yml")
+      expect(
+        FileUtils.identical?(@subject.file, File.open("./spec/support/totez.yml"))
+      ).to be true
     end
 
     it "#fixturize" do
