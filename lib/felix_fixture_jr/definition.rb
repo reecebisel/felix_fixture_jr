@@ -11,9 +11,12 @@ module FelixFixtureJr
                   :include_index,
                   :parent
 
+    attr_reader :blacklisted_attributes
+
     def initialize(constant, parent: FelixFixtureJr::NullConstant)
-      @constant = constant
-      @parent   = parent
+      @constant               = constant
+      @parent                 = parent
+      @blacklisted_attributes = []
     end
 
     def slug_prefix
@@ -31,13 +34,9 @@ module FelixFixtureJr
     def fixturize
       @constant.all.each_with_index.map do |instance, index|
         {
-          slug(index: index) => instance.except(blocked_attributes)
-        }.to_yaml
-      end
-    end
-
-    def blacklisted_attributes
-      @blacklisted_attributes ||= {}
+          slug(index: index) => filter(instance.attributes)
+        }
+      end.to_yaml
     end
 
     private
@@ -47,7 +46,7 @@ module FelixFixtureJr
     end
 
     def blocked_attributes
-      FelixFixtureJr.blacklisted_attributes.merge(blacklisted_attributes)
+      FelixFixtureJr.blacklisted_attributes + blacklisted_attributes
     end
 
     def slug(index: nil)
@@ -56,6 +55,14 @@ module FelixFixtureJr
 
     def file_name
       @file_name ||= [@constant.table_name, ".yml"].join
+    end
+
+    def filter(attributes)
+      blocked_attributes.each do |attr|
+        attributes.delete(attr)
+      end
+
+      attributes
     end
   end
 end
