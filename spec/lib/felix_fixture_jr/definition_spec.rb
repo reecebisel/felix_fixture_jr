@@ -5,8 +5,32 @@ require "./lib/felix_fixture_jr.rb"
 require "spec_helper"
 
 class Totez
+  attr_reader :id, :stuff, :things
+
   def self.table_name
     "totez"
+  end
+
+  def self.all
+    [
+      Totez.new(1),
+      Totez.new(2),
+      Totez.new(3),
+    ]
+  end
+
+  def initialize(id)
+    @things = "things"
+    @stuff  = "stuff"
+    @id     = id
+  end
+
+  def attributes
+    {
+      id: id,
+      stuff: stuff,
+      things: things
+    }
   end
 end
 
@@ -32,15 +56,18 @@ RSpec.describe FelixFixtureJr::Definition do
       ).to be true
     end
 
-    it "#fixturize" do
-      expect(@subject.fixturize).to be_present
-      expect(YAML.parse(@subject.fixturize))
+    it "#fixtures" do
+      expect(@subject.fixtures.length).to eq(3)
+puts @subject.fixtures
+      @subject.fixtures.each do |fixture|
+        expect(YAML.parse(fixture))
+      end
     end
 
     it "#build" do
-      expect(@subject.fixture_file.size).to eq 0
+      expect(@subject.file_size).to eq 0
       @subject.build
-      expect(@subject.fixture_file.size).to be > 0
+      expect(@subject.file_size).to be > 0
     end
 
     it "#constant" do

@@ -27,16 +27,20 @@ module FelixFixtureJr
       File.open(path)
     end
 
+    def file_size
+      file.size
+    end
+
     def path
       @path ||= [FelixFixtureJr.fixture_directory, file_name].join("/")
     end
 
-    def fixturize
+    def fixtures
       @constant.all.each_with_index.map do |instance, index|
         {
           slug(index: index) => filter(instance.attributes)
-        }
-      end.to_yaml
+        }.to_yaml
+      end
     end
 
     private
