@@ -3,6 +3,8 @@
 require_relative "null_constant"
 require_relative "../felix_fixture_jr"
 
+require "active_record"
+
 module FelixFixtureJr
   class Definition
     attr_writer :file, :slug_prefix
@@ -17,6 +19,14 @@ module FelixFixtureJr
       @constant               = constant
       @parent                 = parent
       @blacklisted_attributes = []
+    end
+
+    def build
+      File.write(path) do |file|
+        fixtures.each do |fixture|
+          file << fixture.gsub("---\n", "")
+        end
+      end
     end
 
     def slug_prefix
