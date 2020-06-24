@@ -58,7 +58,7 @@ RSpec.describe FelixFixtureJr::Definition do
 
     it "#fixtures" do
       expect(@subject.fixtures.length).to eq(3)
-puts @subject.fixtures
+
       @subject.fixtures.each do |fixture|
         expect(YAML.parse(fixture))
       end
