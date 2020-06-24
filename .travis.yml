@@ -9,6 +9,7 @@ rvm:
   - 2.6
 before_install:
   - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-  - gem install bundler -v '< 2'
+  - gem install bundler
+  - gem update --system --force bundler
 script:
   - bundle exec rspec
