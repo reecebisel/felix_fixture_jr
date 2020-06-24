@@ -22,10 +22,8 @@ module FelixFixtureJr
     end
 
     def build
-      File.write(path) do |file|
-        fixtures.each do |fixture|
-          file << fixture.gsub("---\n", "")
-        end
+      File.open(path, "w+") do |f|
+        f.write(fixtures)
       end
     end
 
@@ -34,7 +32,7 @@ module FelixFixtureJr
     end
 
     def file
-      File.open(path)
+      File.open(path, "w+")
     end
 
     def file_size
@@ -49,7 +47,7 @@ module FelixFixtureJr
       @constant.all.each_with_index.map do |instance, index|
         {
           slug(index: index) => filter(instance.attributes)
-        }.to_yaml
+        }.to_yaml.gsub!("---", "")
       end
     end
 
@@ -64,7 +62,7 @@ module FelixFixtureJr
     end
 
     def slug(index: nil)
-      @slug ||= [slug_prefix, (index if include_index)].join('_')
+      @slug ||= [slug_prefix, (index)].join('_')
     end
 
     def file_name
