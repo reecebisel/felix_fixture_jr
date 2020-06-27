@@ -3,8 +3,6 @@
 require "spec_helper"
 require "./lib/felix_fixture_jr"
 
-require "pry"
-
 RSpec.describe FelixFixtureJr do
   let(:blacklisted_attributes) do
     FelixFixtureJr.config.blacklisted_attributes
