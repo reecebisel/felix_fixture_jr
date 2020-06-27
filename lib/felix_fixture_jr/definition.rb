@@ -62,7 +62,7 @@ module FelixFixtureJr
     end
 
     def slug(index: nil)
-      @slug ||= [slug_prefix, (index)].join('_')
+      @slug ||= [slug_prefix, index].join('_')
     end
 
     def file_name
