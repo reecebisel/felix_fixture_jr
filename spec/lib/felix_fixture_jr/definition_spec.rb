@@ -46,6 +46,10 @@ RSpec.describe FelixFixtureJr::Definition do
       @subject = described_class.new(Totez)
     end
 
+    after do
+      File.write(@subject.file.path, "", mode: "w")
+    end
+
     it "#slug_prefix" do
       expect(@subject.slug_prefix).to eq("totez")
     end
@@ -65,6 +69,14 @@ RSpec.describe FelixFixtureJr::Definition do
     end
 
     it "#build" do
+      expect(@subject.file_size).to eq 0
+      @subject.build
+      expect(@subject.file_size).to be > 0
+    end
+
+    it "#build creates new fixture file" do
+      File.delete(@subject.file)
+
       expect(@subject.file_size).to eq 0
       @subject.build
       expect(@subject.file_size).to be > 0
