@@ -22,9 +22,7 @@ module FelixFixtureJr
     end
 
     def build
-      File.open(path, "w+") do |f|
-        f.write(fixtures)
-      end
+      File.write(path, fixtures.join, mode: "w+")
     end
 
     def slug_prefix
@@ -32,7 +30,11 @@ module FelixFixtureJr
     end
 
     def file
-      File.open(path, "w+")
+      if File.exists?(path)
+        File.open(path)
+      else
+        File.new(path)
+      end
     end
 
     def file_size
