@@ -33,7 +33,7 @@ module FelixFixtureJr
       if File.exists?(path)
         File.open(path)
       else
-        File.new(path)
+        File.open(path, "w+")
       end
     end
 
