@@ -4,59 +4,40 @@ require "./lib/felix_fixture_jr/definition"
 require "./lib/felix_fixture_jr.rb"
 require "spec_helper"
 
-class Totez
-  attr_reader :id, :stuff, :things
-
-  def self.table_name
-    "totez"
-  end
-
-  def self.all
-    [
-      Totez.new(1),
-      Totez.new(2),
-      Totez.new(3),
-    ]
-  end
-
-  def initialize(id)
-    @things = "things"
-    @stuff  = "stuff"
-    @id     = id
-  end
-
-  def attributes
-    {
-      id: id,
-      stuff: stuff,
-      things: things
-    }
-  end
+class UserFixture < User
+  include FelixFixtureJr::Definition
 end
 
-class TotezDefintion < FelixFixtureJr::Definition; end
-
-RSpec.describe FelixFixtureJr::Definition do
+RSpec.describe UserFixture do
   context "minimal setup for class" do
     before do
+      3.times do |i|
+        User.create(
+          name: "name_#{i}",
+          email: "totez_#{i}@example.com",
+          admin: i % 2 == 0 ? true : false
+        )
+      end
+
       FelixFixtureJr.configure do |config|
         config.fixture_directory = "./spec/support"
       end
 
-      @subject = described_class.new(Totez)
+      @subject = described_class.new
     end
 
     after do
       File.write(@subject.file.path, "", mode: "w")
+      User.destroy_all
     end
 
     it "#slug_prefix" do
-      expect(@subject.slug_prefix).to eq("totez")
+      expect(@subject.slug_prefix).to eq("users")
     end
 
     it "#file" do
       expect(
-        FileUtils.identical?(@subject.file, File.open("./spec/support/totez.yml"))
+        FileUtils.identical?(@subject.file, File.open("./spec/support/users.yml"))
       ).to be true
     end
 
@@ -83,7 +64,7 @@ RSpec.describe FelixFixtureJr::Definition do
     end
 
     it "#constant" do
-      expect(@subject.constant).to eq(Totez)
+      expect(@subject.constant).to eq(User)
     end
   end
 end

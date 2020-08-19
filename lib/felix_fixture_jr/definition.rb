@@ -4,21 +4,19 @@ require_relative "null_constant"
 require_relative "../felix_fixture_jr"
 
 require "active_record"
+require "pry"
 
 module FelixFixtureJr
-  class Definition
+  module Definition
     attr_writer :file, :slug_prefix
 
     attr_accessor :constant,
                   :include_index,
                   :parent
 
-    attr_reader :blacklisted_attributes
 
-    def initialize(constant, parent: FelixFixtureJr::NullConstant)
-      @constant               = constant
-      @parent                 = parent
-      @blacklisted_attributes = []
+    def blacklisted_attributes
+      @blacklisted_attributes ||= []
     end
 
     def build
@@ -26,7 +24,11 @@ module FelixFixtureJr
     end
 
     def slug_prefix
-      @slug_prefix ||= [parent_name, constant.table_name].join
+      @slug_prefix ||= [parent_name, self.class.table_name].join
+    end
+
+    def constant
+      self.class.superclass
     end
 
     def file
@@ -46,7 +48,7 @@ module FelixFixtureJr
     end
 
     def fixtures
-      @constant.all.each_with_index.map do |instance, index|
+      constant.all.each_with_index.map do |instance, index|
         {
           slug(index: index) => filter(instance.attributes)
         }.to_yaml.gsub!("---", "")
@@ -68,7 +70,7 @@ module FelixFixtureJr
     end
 
     def file_name
-      @file_name ||= [@constant.table_name, ".yml"].join
+      @file_name ||= [constant.table_name, ".yml"].join
     end
 
     def filter(attributes)
