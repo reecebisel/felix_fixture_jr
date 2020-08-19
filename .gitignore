@@ -1,2 +1,4 @@
 .ruby-version
 **/totez.yml
+spec/log/*.log
+spec/tmp/*
