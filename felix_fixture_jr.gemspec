@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "activerecord", ">= 4.2", "< 6.0"
+  spec.add_development_dependency "appraisal"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rspec",        "~> 3.9"
   spec.add_development_dependency "sqlite3"
