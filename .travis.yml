@@ -8,6 +8,9 @@ rvm:
 gemfile:
   - gemfiles/rails_4_2.gemfile
   - gemfiles/rails_5_0.gemfile
+  - gemfiles/rails_5_1.gemfile
+  - gemfiles/rails_5_2.gemfile
+  - gemfiles/rails_6_0.gemfile
 before_install:
   # uninstall bundler 2.0 and greater for rails 4.2 testing
   - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
