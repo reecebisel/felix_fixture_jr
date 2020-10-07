@@ -9,18 +9,12 @@ rvm:
 gemfile:
   - gemfiles/rails_4_2.gemfile
   - gemfiles/rails_5_0.gemfile
-  - gemfiles/rails_5_1.gemfile
-  - gemfiles/rails_5_2.gemfile
-  - gemfiles/rails_6_0.gemfile
+  #- gemfiles/rails_5_1.gemfile
+  #- gemfiles/rails_5_2.gemfile
+  #- gemfiles/rails_6_0.gemfile
 before_install:
-  - gem uni -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-  - gem install rubygems-update && update_rubygems
-  - gem i bundler -v '< 2'
-  # Rails 4.2 doesn't support bundler 2.0, so we need to lock bundler to
-  # v1.17.3. This is just for Ruby 2.5 which ships with bundler 2.x on Travis
-  # CI while Ruby 2.6 does not.
-  # https://github.com/travis-ci/travis-rubies/issues/57#issuecomment-458981237
-  - yes | rvm @global do gem uninstall bundler --all
-  - yes | rvm @global do gem install bundler -v 1.17.3 || true
+  # uninstall bundler 2.0 and greater for rails 4.2 testing
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
 script:
   - bundle exec rspec
