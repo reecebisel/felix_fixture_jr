@@ -17,4 +17,4 @@ before_install:
   - gem install bundler -v '< 2'
 script:
   - bundle list | grep sqlite3
-  - bundle exec rspec
+  - bundle exec appraisal rspec
