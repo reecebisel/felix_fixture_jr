@@ -18,6 +18,7 @@ end
 
 require "active_support/core_ext"
 require "pry"
+require "sqlite3"
 
 # Initialize our test app
 
