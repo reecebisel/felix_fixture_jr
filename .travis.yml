@@ -12,6 +12,7 @@ before_install:
   # uninstall bundler 2.0 and greater for rails 4.2 testing
   - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
   - gem install bundler -v '< 2'
+  - bundle install
   - bundle exec appraisal install
 script:
   - bundle exec rspec
