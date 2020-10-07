@@ -13,7 +13,8 @@ gemfile:
   - gemfiles/rails_6_0.gemfile
 before_install:
   # uninstall bundler 2.0 and greater for rails 4.2 testing
-  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  # and make sure its not the default gem
+  - "find /home/travis/.rvm/rubies -wholename '*default/bundler-*.gemspec' -delete"
   - gem install bundler -v '< 2'
 script:
   - bundle exec rspec
