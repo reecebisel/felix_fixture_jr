@@ -22,49 +22,49 @@ RSpec.describe UserFixture do
       FelixFixtureJr.configure do |config|
         config.fixture_directory = "./spec/support"
       end
-
-      @subject = described_class.new
     end
 
+    let(:subject) { described_class.new }
+
     after do
-      File.write(@subject.file.path, "", mode: "w")
+      File.write(subject.file.path, "", mode: "w")
       User.destroy_all
     end
 
     it "#slug_prefix" do
-      expect(@subject.slug_prefix).to eq("users")
+      expect(subject.slug_prefix).to eq("users")
     end
 
     it "#file" do
       expect(
-        FileUtils.identical?(@subject.file, File.open("./spec/support/users.yml"))
+        FileUtils.identical?(subject.file, File.open("./spec/support/users.yml"))
       ).to be true
     end
 
     it "#fixtures" do
-      expect(@subject.fixtures.length).to eq(3)
+      expect(subject.fixtures.length).to eq(3)
 
-      @subject.fixtures.each do |fixture|
+      subject.fixtures.each do |fixture|
         expect(YAML.parse(fixture))
       end
     end
 
     it "#build" do
-      expect(@subject.file_size).to eq 0
-      @subject.build
-      expect(@subject.file_size).to be > 0
+      expect(subject.file_size).to eq 0
+      subject.build
+      expect(subject.file_size).to be > 0
     end
 
     it "#build creates new fixture file" do
-      File.delete(@subject.file)
+      File.delete(subject.file)
 
-      expect(@subject.file_size).to eq 0
-      @subject.build
-      expect(@subject.file_size).to be > 0
+      expect(subject.file_size).to eq 0
+      subject.build
+      expect(subject.file_size).to be > 0
     end
 
     it "#constant" do
-      expect(@subject.constant).to eq(User)
+      expect(subject.constant).to eq(User)
     end
   end
 end
