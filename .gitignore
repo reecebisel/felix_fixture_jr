@@ -2,3 +2,5 @@
 **/totez.yml
 spec/log/*.log
 spec/tmp/*
+gemfiles/*.lock
+Gemfile.lock
